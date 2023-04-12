@@ -1,0 +1,5 @@
+* @nelsonrp24
+*.js @nelsonrp24
+*.yml @nelsonrp24_2
+*.tf @nelsonrp24_3 
+/public/ @nelsonrp24_4
