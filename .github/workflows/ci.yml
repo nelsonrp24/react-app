@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   pull_request:
     branches: [develop]
 
@@ -13,9 +13,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "19.8.1"
-      - run: npm ci 
+      - run: npm ci
       - run: npm run format:check
       - run: npm test -- --coverage
         env:
           CI: true
-      
