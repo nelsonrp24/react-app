@@ -11,8 +11,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
     steps:
       - name: CheckOut Code
@@ -65,10 +65,10 @@ jobs:
 
       - name: Uplodad Coverage Reports
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: npx codecov 
+        run: npx codecov
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          
+
       #- name: Create a Release
       #  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       #  run: npx semantic-release
@@ -79,5 +79,3 @@ jobs:
       - name: Deploy to Staging
         if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
         run: npx surge --projectd ./build --domain  acceptable-river.surge.sh
-
-
