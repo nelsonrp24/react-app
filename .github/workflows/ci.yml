@@ -10,6 +10,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+
     steps:
       - name: CheckOut Code
         uses: actions/checkout@v2
@@ -55,6 +59,16 @@ jobs:
           zip -r coverage.zip ./coverage
           ls -l
 
+      - name: Deploy to Production
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx surge --projectd ./build --domain  witty-kettle.surge.sh
+
+      - name: Uplodad Coverage Reports
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx codecov 
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          
       #- name: Create a Release
       #  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       #  run: npx semantic-release
@@ -63,8 +77,7 @@ jobs:
       #    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Staging
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
         run: npx surge --projectd ./build --domain  acceptable-river.surge.sh
-        env:
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+
+
