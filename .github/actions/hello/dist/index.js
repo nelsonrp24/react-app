@@ -9802,7 +9802,7 @@ try {
     console.log(JSON.stringifyI(github, null, '\t'));
 
 } catch(error) {
-    core.setFailed(errr.message);
+    core.setFailed(error.message);
 }
 
 
