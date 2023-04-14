@@ -5,12 +5,13 @@ jobs:
     steps:
       - name: CheckOut
         uses: actions/checkout@v2
-        
+
       - name: SayHello
         uses: ./.github/actions/hello
         id: hello
         with:
           who-to-greet: "World"
-        run: |
+          
+      - run: |
           echo "Time: ${{ steps.hello.outputs.time }}"
       
