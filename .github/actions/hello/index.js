@@ -8,7 +8,7 @@ try {
     console.log(`Hello ${name}`);
     const time = new Date();
     core.setOutput("time", time.toString());
-    console.log(JSON.stringifyI(github, null, '\t'));
+    console.log(JSON.stringify(github, null, '\t'));
 
 } catch(error) {
     core.setFailed(error.message);
