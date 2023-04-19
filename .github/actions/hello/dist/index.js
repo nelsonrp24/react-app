@@ -11239,9 +11239,10 @@
       core.warning("Warning Message");
       core.error("Error Message");
 
+      const name = core.getInput("who-to-greet");
+
       core.setSecret(name);
 
-      const name = core.getInput("who-to-greet");
       console.log(`Hello ${name}`);
 
       const time = new Date();
