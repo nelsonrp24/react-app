@@ -6,13 +6,29 @@ jobs:
       - name: CheckOut
         uses: actions/checkout@v2
 
+      - name: CreateIssue
+        uses: ./.github/actions/issue
+        id: issue
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Title
+          body: Body
+          assignees:
+            | # this can be: "nelsonrp24,nelsonrafperez", and then split by comma,  but the this way is cleaner.
+            nelsonrp24
+            nelsonrafperez
+
       - name: SayHello
         uses: ./.github/actions/hello
         id: hello
         with:
           who-to-greet: "World"
-          
-      - run: |
+
+      - name: "Printing action output"
+        run: |
           echo "Time: ${{ steps.hello.outputs.time }}"
           echo ${HELLO}
-      
+
+      - name: "Checking Issue created - action output"
+        run: |
+          echo ${{ steps.issue.outputs.issue }}

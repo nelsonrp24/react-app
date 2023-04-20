@@ -1,3 +1,5 @@
+// command to compile: npx ncc build .github/actions/hello/index.js -o .github/actions/hello/dist
+
 const core = require("@actions/core");
 const github = require("@actions/github");
 

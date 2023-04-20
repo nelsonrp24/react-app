@@ -1,14 +1,14 @@
 name: Hello World
 author: Nelson Perez
-description:  some description
+description: some description
 inputs:
   who-to-greet:
-    description: 'Who to greet'
+    description: "Who to greet"
     required: true
     default: Fulano
 outputs:
   time:
-    description: 'The greeting time'
+    description: "The greeting time"
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
