@@ -6,7 +6,7 @@ inputs:
   token:
     description: "Github Token"
     required: true
-  tittle:
+  title:
     description: "Issue Title"
     required: true
   body:
