@@ -9,9 +9,8 @@ echo "::info :: Info Message"
 echo "::add-mask:: $1"
 
 echo -n "::info :: Esto esta enmascarado:  "
-echo "::add-mask:: Hello World....!!!!! "
 
-echo "Hello $1"
+echo "This is the input masked: $1"
 
 time=$(date)
 
@@ -24,7 +23,7 @@ echo "::group::Some Expandable logs"
 echo "some stuff 1"
 echo "some stuff 2"
 echo "some stuff 3"
-echo "::endgroup"
+echo "::endgroup::"
 
 
 #echo "::set-env name=HELLO:: thisIsAGreeting"  --> this is deprecated
