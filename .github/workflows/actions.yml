@@ -19,10 +19,10 @@ jobs:
             nelsonrafperez
 
       - name: SayHello
-        uses: ./.github/actions/hello
+        uses: ./.github/actions/hello-docker
         id: hello
         with:
-          who-to-greet: "World"
+          who-to-greet: "NelsonWorldsDcoker"
 
       - name: "Printing action output"
         run: |

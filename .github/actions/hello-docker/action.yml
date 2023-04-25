@@ -1,0 +1,20 @@
+name: Hello World
+author: Nelson
+description: Some Description
+inputs:
+  who-to-greet:
+    description: "Who to greet"
+    required: true
+    default: Nelson
+outputs:
+  time:
+    description: "The greeting time"
+runs:
+  using: "docker"
+  #image: "docker://"
+  image: "Dockerfile"
+  #env:
+  #  ceioc:
+  #entrypoint: 
+  args:
+    - ${{ inputs.who-to-greet }}
