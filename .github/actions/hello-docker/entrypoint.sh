@@ -4,11 +4,8 @@ echo "::debug :: Debug Message"
 
 echo "::warning :: Warning Message"
 echo "::error :: Error Message"
-echo "::info :: Info Message"
 
 echo "::add-mask:: $1"
-
-echo -n "::info :: Esto esta enmascarado:  "
 
 echo "This is the input masked: $1"
 
