@@ -6,6 +6,12 @@ jobs:
       - name: CheckOut
         uses: actions/checkout@v2
 
+      - name: Send a Slack Message
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{secrets.SLACK_WEBHOOK }}
+          message: 'Hello to slack from php code inside actions'
+
       - name: CreateIssue
         uses: ./.github/actions/issue
         id: issue
