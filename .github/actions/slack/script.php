@@ -35,7 +35,7 @@ $response = Requests::post(
               0 => 
               array (
                 'type' => 'mrkdwn',
-                'text' => '*Repository:*Computer (laptop)',
+                'text' => "*Repository:{$_ENV['GITHUB_REPOSITORY']}",
               ),
               1 => 
               array (
@@ -55,7 +55,7 @@ $response = Requests::post(
               4 => 
               array (
                 'type' => 'mrkdwn',
-                'text' => '*Specs:*"Cheetah Pro 15" - Fast, really fast"',
+                'text' => "*Ref Name:*{$_ENV['GITHUB_REF_NAME']}",
               ),
             ),
           ),
