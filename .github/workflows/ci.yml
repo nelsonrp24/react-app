@@ -2,16 +2,22 @@ name: CI
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [develop22, main22]
 
   push:
-    branches: [develop]
+    branches: [develop22, main22]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+
     steps:
-      - uses: actions/checkout@v2
+      - name: CheckOut Code
+        uses: actions/checkout@v2
+
       - name: Cache node_modules
         uses: actions/cache@v1
         with:
@@ -46,9 +52,43 @@ jobs:
           name: build
           path: build
 
-      - name: Deploy to Staging
-        if: github.event_name == 'push'
-        run: npx surge --projectd ./build --domain  acceptable-river.surge.sh
+      - name: ZIP Assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          zip -r build.zip ./build
+          zip -r coverage.zip ./coverage
+          ls -l
+
+      - name: Deploy to Production
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx surge --projectd ./build --domain  witty-kettle.surge.sh
+
+      - name: Uplodad Coverage Reports
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx codecov
         env:
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_SECRET }}
+          GH_TOKEN: ${{ secrets.CUSTOM_SECRET }}
+
+      - name: Deploy to Staging
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        run: npx surge --projectd ./build --domain  acceptable-river.surge.sh
+
+      - name: Open Issue
+        if: failure() && github.event_name == 'pull_request'
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.CUSTOM_SECRET }}' \
+          --header 'Content-type: application/json' \
+          --data '{
+            "title": "Automated issue for commit: ${{ github.sha }}",
+            "body": "This issue was automatically created by the Github Actions Workflow **${{ github.workflow }}**. \n\n The commit hash was: _${{ github.sha }}_.",
+            "assignees": ["${{ github.event.pull_request.user.login }}"]
+            }'

@@ -1,0 +1,40 @@
+on: push
+jobs:
+  testing-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: CheckOut
+        uses: actions/checkout@v2
+
+      - name: Send a Slack Message
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{secrets.SLACK_WEBHOOK }}
+          message: 'Hello to slack from php code inside actions'
+
+      - name: CreateIssue
+        uses: ./.github/actions/issue
+        id: issue
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Title
+          body: Body
+          assignees:
+            | # this can be: "nelsonrp24,nelsonrafperez", and then split by comma,  but the this way is cleaner.
+            nelsonrp24
+            nelsonrafperez
+
+      - name: SayHello
+        uses: ./.github/actions/hello-docker
+        id: hello
+        with:
+          who-to-greet: "NelsonWorldsDcoker"
+
+      - name: "Printing action output"
+        run: |
+          echo "Time: ${{ steps.hello.outputs.time }}"
+          echo ${HELLO}
+
+      - name: "Checking Issue created - action output"
+        run: |
+          echo ${{ steps.issue.outputs.issue }}
